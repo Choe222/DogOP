@@ -1,10 +1,8 @@
 package com.hust.tetris;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 import com.hust.tetris.pieces.*;
 import com.hust.utils.MyInteger;
+import java.util.Random;
 
 /**
  * Game logic controller: holds Board, current/next piece, score.
@@ -13,7 +11,7 @@ import com.hust.utils.MyInteger;
 public class TetrisGame {
 	
 	private Board board;
-	public Piece currentPiece;
+	private Piece currentPiece;
 	private Piece nextPiece;
 	
 	private MyInteger inScore;
@@ -130,16 +128,8 @@ public class TetrisGame {
 		return gameOver;
 	}
 
-	public void setStart() {
-		gameOver = false;
-	}
-
 	public void reversePause() {
 		paused = !paused;
-	}
-
-	public void setPause() {
-		paused = false;
 	}
 
 	public boolean isPaused() {

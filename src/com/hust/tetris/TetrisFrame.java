@@ -9,8 +9,6 @@ import javax.swing.*;
  */
 
 public class TetrisFrame extends JFrame {
-    private Controller controller;
-    
     private CardLayout cardLayout;
     private JPanel root;
     private GamePanel gamePanel;
@@ -25,7 +23,7 @@ public class TetrisFrame extends JFrame {
         gamePanel = new GamePanel();
         menuPanel = new MenuPanel(this);
         
-        controller = new Controller(gamePanel, menuPanel, this);
+        Controller controller = new Controller(gamePanel, menuPanel, this);
 
         root.add(gamePanel, "GAME_PANEL");
         root.add(menuPanel, "MENU_PANEL");
