@@ -1,4 +1,4 @@
-package com.hust.tetris;
+package com.hust.tetris.java;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -76,6 +76,8 @@ public class Controller implements KeyListener {
 		nextLoop.start();
 
 		viewGame.requestFocusInWindow();
+		viewGame.getReset().setVisible(true);
+		viewGame.getPause().setVisible(true);
 		viewGame.repaint();
 	}
 

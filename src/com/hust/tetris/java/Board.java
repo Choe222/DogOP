@@ -1,7 +1,8 @@
-package com.hust.tetris;
+package com.hust.tetris.java;
 
-import com.hust.tetris.pieces.Piece;
-import com.hust.utils.MyInteger;
+import com.hust.tetris.java.*;
+import com.hust.tetris.java.piece.Piece;
+import com.hust.tetris.java.utils.MyInteger;
 
 /**
  * This class handles the colllision, locking the piece and calculating the score.

@@ -1,4 +1,4 @@
-package com.hust.utils;
+package com.hust.tetris.java.utils;
 public class MyInteger {
     int value;
 

@@ -1,4 +1,4 @@
-package com.hust.tetris.pieces;
+package com.hust.tetris.java.piece;
 public class Piece {
     protected int[][] shape;
     private String urlImage;

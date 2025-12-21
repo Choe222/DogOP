@@ -1,4 +1,4 @@
-package com.hust.tetris;
+package com.hust.tetris.java;
 
 import javax.swing.SwingUtilities;
 

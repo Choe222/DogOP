@@ -1,4 +1,4 @@
-package com.hust.tetris.pieces;
+package com.hust.tetris.java.piece;
 public class PieceL extends Piece {
 	public PieceL(String urlImage, int x ,int y) {
 		super(urlImage,x,y);

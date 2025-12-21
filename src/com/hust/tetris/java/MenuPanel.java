@@ -1,6 +1,8 @@
-package com.hust.tetris;
+package com.hust.tetris.java;
 
-import com.hust.tetris.design.DesignButton;
+import com.hust.tetris.java.*;
+import com.hust.tetris.java.design.DesignButton;
+import com.hust.tetris.java.resources.ResourceManager;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -26,21 +28,20 @@ public class MenuPanel extends JPanel {
     	setLayout(null);
     	
     	//"level" Button
-    	levelO = DesignButton.design("./levelOne.png","./levelOnePressed.png",57,201);
-    	levelTo = DesignButton.design("./levelTo.png","./levelToPressed.png",77,201);
-    	levelTe = DesignButton.design("./levelTe.png","./levelTePressed.png",97,201);
-    	levelFo = DesignButton.design("./levelFor.png","./levelForPressed.png",117,201);
-    	levelFi = DesignButton.design("./levelFi.png","./levelFiPressed.png",137,201);
+    	levelO = DesignButton.design(ResourceManager.LV1_NORMAL,ResourceManager.LV1_PRESSED,57,201);
+    	levelTo = DesignButton.design(ResourceManager.LV2_NORMAL,ResourceManager.LV2_PRESSED,77,201);
+    	levelTe = DesignButton.design(ResourceManager.LV3_NORMAL,ResourceManager.LV3_PRESSED,97,201);
+    	levelFo = DesignButton.design(ResourceManager.LV4_NORMAL,ResourceManager.LV4_PRESSED,117,201);
+    	levelFi = DesignButton.design(ResourceManager.LV5_NORMAL,ResourceManager.LV5_PRESSED,137,201);
     	
     	//"How to play" Button
-    	how = DesignButton.design("./how.png","./howPressed.png",130,150);
+    	how = DesignButton.design(ResourceManager.HOW_TO_PLAY_NORMAL,ResourceManager.HOW_TO_PLAY_PRESSED,130,150);
     	
     	//"start" Button
-        start = DesignButton.design("./normalStart.png", "./hoverStart.png", "./pressedStart.png", 57,371);
+        start = DesignButton.design(ResourceManager.START_NORMAL, ResourceManager.START_HOVER, ResourceManager.START_PRESSED, 57,371);
         
         //Menu img
-    	String url = new String("./Menu.png");
-    	Image bgI = new ImageIcon(getClass().getResource(url)).getImage();
+    	Image bgI = new ImageIcon(getClass().getResource(ResourceManager.MENU)).getImage();
     	
         add(start);
         add(levelO);
@@ -78,8 +79,7 @@ public class MenuPanel extends JPanel {
 
 	@Override
     protected void paintComponent(Graphics g) {
-    	String url = new String("./Menu.png");
-    	Image bgI = new ImageIcon(getClass().getResource(url)).getImage();
+    	Image bgI = new ImageIcon(getClass().getResource(ResourceManager.MENU)).getImage();
 
     	g.drawImage(bgI, 0, 0, bgI.getWidth(this), bgI.getHeight(this), this);
     }

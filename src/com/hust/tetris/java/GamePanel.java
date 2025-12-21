@@ -1,15 +1,18 @@
-package com.hust.tetris;
+package com.hust.tetris.java;
+
+import com.hust.tetris.java.resources.*;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import com.hust.tetris.TetrisGame.TickResult;
-import com.hust.tetris.design.DesignButton;
-import com.hust.tetris.pieces.Piece;
+import com.hust.tetris.java.design.DesignButton;
+import com.hust.tetris.java.piece.Piece;
+import com.hust.tetris.java.*;
+
 
 public class GamePanel extends JPanel {
 	private TetrisGame game;
@@ -24,7 +27,10 @@ public class GamePanel extends JPanel {
 	private Image background;
 	private JButton reset;
 	private JButton pause;
-
+	Font TetrisPixel;
+	Font Combo;
+	//private JTextField name;
+	
 	public GamePanel() {
 		setLayout(null);
 		this.game = new TetrisGame();
@@ -35,13 +41,27 @@ public class GamePanel extends JPanel {
 		int boardWidthPx = cols * tileSize; // by Pixel
 		int boardHeightPx = rows * tileSize;
 		int x = boardWidthPx + sidePanelWidth;
-
-		reset = DesignButton.design("./resetButton.png", "./resetButtonHover.png", "./resetButtonPressed.png", 458, 443);
-		pause = DesignButton.design("./pauseButton.png", "./pauseButtonHover.png", "./pauseButtonPressed.png", 437, 443);
+		
+		reset = DesignButton.design(ResourceManager.RESET_NORMAL, ResourceManager.RESET_HOVER, ResourceManager.RESET_PRESSED, 458, 443);
+		pause = DesignButton.design(ResourceManager.PAUSE_NORMAL, ResourceManager.PAUSE_HOVER, ResourceManager.PAUSE_PRESSED, 437, 443);
+	    try {
+	    	InputStream is = getClass().getResourceAsStream(ResourceManager.TETRIS_FONT);
+	    	this.TetrisPixel = Font.createFont(Font.TRUETYPE_FONT, is);
+	    	is = getClass().getResourceAsStream(ResourceManager.COMBO_FONT);
+	    	this.Combo = Font.createFont(Font.TRUETYPE_FONT, is);
+	    } catch (FontFormatException | IOException exception) {
+	        JOptionPane.showMessageDialog(null, exception.getMessage());
+	    } 
+	    
+		//name = new JTextField(); 
+		//name.setSize(boardWidthPx, boardHeightPx);
+		
 		add(reset);
 		add(pause);
+		
+		//add(name);
 		setPreferredSize(new Dimension(x, boardHeightPx));
-		setBackground(Color.BLACK);
+		setBackground(Color.GRAY);
 	}
 
 	public JButton getReset() {
@@ -71,13 +91,13 @@ public class GamePanel extends JPanel {
 		int t = game.getStartTick().getValue();
 
 		if (t == 0) {
-			background = new ImageIcon(getClass().getResource("./gameFirst.png")).getImage();
+			background = new ImageIcon(getClass().getResource(ResourceManager.GAME_FIRST)).getImage();
 		} else if (t == 1) {
-			background = new ImageIcon(getClass().getResource("./gameTwo.png")).getImage();
+			background = new ImageIcon(getClass().getResource(ResourceManager.GAME_TWO)).getImage();
 		} else if (t == 2) {
-			background = new ImageIcon(getClass().getResource("./gameThree.png")).getImage();
+			background = new ImageIcon(getClass().getResource(ResourceManager.GAME_THREE)).getImage();
 		} else {
-			background = new ImageIcon(getClass().getResource("./gameStart.png")).getImage();
+			background = new ImageIcon(getClass().getResource(ResourceManager.GAME_START)).getImage();
 		}
 
 		g.drawImage(background, 0, 0, background.getWidth(this), boardHeightPx, this);
@@ -152,13 +172,13 @@ public class GamePanel extends JPanel {
 			String temp = next.getURLImage();
 			Color n = gray;
 
-			if (temp.equals("./cyan.png")) {
+			if (temp.equals(ResourceManager.CYAN_PIECE)) {
 				n = cyan;
-			} else if (temp.equals("./red.png")) {
+			} else if (temp.equals(ResourceManager.RED_PIECE)) {
 				n = red;
-			} else if (temp.equals("./green.png")) {
+			} else if (temp.equals(ResourceManager.GREEN_PIECE)) {
 				n = green;
-			} else if (temp.equals("./purple.png")) {
+			} else if (temp.equals(ResourceManager.PURPLE_PIECE)) {
 				n = purple;
 			} else {
 				n = orange;
@@ -207,21 +227,21 @@ public class GamePanel extends JPanel {
 		int scoreBoxX = 313;
 		int scoreBoxY = 380;
 		g.setColor(Color.BLACK);
-		g.setFont(new Font("Dialog", Font.BOLD, 24));
+		g.setFont(TetrisPixel.deriveFont(Font.PLAIN , 24F));
 
 		String scoreText = "" + game.getScore().getValue();
 		g.drawString(scoreText, scoreBoxX + 2, scoreBoxY + 32);
 		g.setColor(new Color(56, 142, 60));
 		if (game.getInScore().getValue() > 0) {
 			String inScore = "+" + game.getInScore().getValue();
-			g.setFont(new Font("Dialog", Font.BOLD, 24));
+			g.setFont(TetrisPixel.deriveFont(Font.PLAIN , 32F));
 			g.drawString(inScore, scoreBoxX + 2, scoreBoxY - 8);
 		}
 
 		if (game.getPowScore().getValue() >= 2) {
 			String pow = "x" + game.getPowScore().getValue();
 			g.setColor(new Color(56, 142, 60));
-			g.setFont(new Font("Dialog", Font.BOLD, 16));
+			g.setFont(Combo.deriveFont(Font.PLAIN , 36F)); /////////////////////////////////////////////////
 			g.drawString(pow, 460, scoreBoxY - 8);
 		}
 
@@ -264,29 +284,33 @@ public class GamePanel extends JPanel {
 
 		// pause & game over
 		if (game.isGameOver()) {
+			
+			this.reset.setVisible(false);
+			this.pause.setVisible(false);
+			
 			g.setColor(new Color(0, 0, 0, 180));
 			g.fillRect(0, 0, getWidth(), getHeight());
 
 			g.setColor(Color.WHITE);
-			g.setFont(new Font("Arial", Font.BOLD, 28));
+			g.setFont(TetrisPixel.deriveFont(Font.PLAIN , 28F));
 			String m = "GAME OVER";
-			String n = "Score: " + game.getScore().getValue();
-
+			String n = "Press R or M to continue";
+			
 			int msgWidth = g.getFontMetrics().stringWidth(m);
-			int scoreWidth = g.getFontMetrics().stringWidth(n);
 
 			int centerX = getWidth() / 2;
 			int centerY = getHeight() / 2;
 
 			g.drawString(m, centerX - msgWidth / 2, centerY - 10);
-			g.setFont(new Font("Arial", Font.PLAIN, 20));
-			g.drawString(n, centerX - scoreWidth / 2, centerY + 20);
+			g.setFont(TetrisPixel.deriveFont(Font.PLAIN , 18F));
+			int continueWidth = g.getFontMetrics().stringWidth(n);
+			g.drawString(n, centerX  - continueWidth / 2, centerY + 20);
 		} else if (game.isPaused()) {
 			g.setColor(new Color(0, 0, 0, 150));
 			g.fillRect(0, 0, getWidth(), getHeight());
 
 			g.setColor(Color.WHITE);
-			g.setFont(new Font("Arial", Font.BOLD, 26));
+			g.setFont(TetrisPixel.deriveFont(Font.PLAIN , 26F));
 			String msg = "PAUSED";
 			int msgWidth = g.getFontMetrics().stringWidth(msg);
 			int centerX = getWidth() / 2;

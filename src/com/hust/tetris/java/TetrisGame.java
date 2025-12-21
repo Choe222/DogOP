@@ -1,7 +1,10 @@
-package com.hust.tetris;
+package com.hust.tetris.java;
 
-import com.hust.tetris.pieces.*;
-import com.hust.utils.MyInteger;
+import com.hust.tetris.java.resources.ResourceManager;
+import com.hust.tetris.java.utils.MyInteger;
+import com.hust.tetris.java.piece.*;
+import com.hust.tetris.java.*;
+
 import java.util.Random;
 
 /**
@@ -13,9 +16,9 @@ public class TetrisGame {
 	private Board board;
 	private Piece currentPiece;
 	private Piece nextPiece;
+	private MyInteger score;
 	
 	private MyInteger inScore;
-	private MyInteger score;
 	private MyInteger lines;
 	private MyInteger powScore;
 	
@@ -25,7 +28,7 @@ public class TetrisGame {
 	
 	private Random rand = new Random();		//Random for color and piece.
 	private char[] tetrominoTypes = { 'O', 'I', 'S', 'Z', 'T', 'L', 'J' };
-	private String[] urlImages = { "./red.png", "./orange.png", "./cyan.png", "./green.png", "./purple.png" };
+	private String[] urlImages = {ResourceManager.RED_PIECE, ResourceManager.ORANGE_PIECE, ResourceManager.CYAN_PIECE, ResourceManager.GREEN_PIECE, ResourceManager.PURPLE_PIECE };
 
 	private int spawnX;		//postion of new piece
 	private int spawnY;
@@ -36,6 +39,9 @@ public class TetrisGame {
 
 	private boolean gameOver = false;
 	private boolean paused = false;
+	
+	private int highestScore = 0;
+	private String[] name;
 
 	public TetrisGame() {
 		this.board = new Board(20, 11);		// Board 20x11
@@ -50,6 +56,18 @@ public class TetrisGame {
 		
 		this.spawnX = 5;
 		this.spawnY = 0;
+	}
+	
+	public String getName(int idx) {
+		return name[idx];
+	}
+	
+	public void setRank(String name, int rank) {
+		this.name[rank] = name;
+	}
+	
+	public int getHighestScore() {
+		return this.highestScore;
 	}
 
 	public MyInteger getStartTick() {
@@ -244,6 +262,22 @@ public class TetrisGame {
 		return up;
 	}
 
+	/**
+	 * Check to update the new highest score
+	 * */
+	
+	public boolean checkNewScore() {
+		return this.highestScore < score.getValue();
+	}
+	
+	/**
+	 * Set new hightest Score 
+	 * */
+	
+	public void setHighestScore(int newScore) {
+		this.highestScore = newScore;
+	}
+	
 	/**
 	 * move the piece to the left
 	 * @return true if the piece can move and otherwise

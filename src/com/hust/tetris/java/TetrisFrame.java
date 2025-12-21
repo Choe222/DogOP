@@ -1,4 +1,4 @@
-package com.hust.tetris;
+package com.hust.tetris.java;
 
 import java.awt.*;
 import javax.swing.*;
@@ -16,7 +16,6 @@ public class TetrisFrame extends JFrame {
     
     public TetrisFrame() {
         super("Tetris");
-        
         cardLayout = new CardLayout();
         root = new JPanel(cardLayout);
         
